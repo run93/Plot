@@ -1,9 +1,11 @@
+# set directory and get , clean data
 setwd("C:/Users/Xiang/Desktop/R-Coursera/Plot")
 data <- file("household_power_consumption.txt")
 data2 <- read.table(text = grep("^[1,2]/2/2007", readLines(data), value = TRUE), col.names = c("date", "time", "global_active_power", "global_reactive_power", "voltage", "global_intensity", "sub_metering_1", "sub_metering_2", "sub_metering_3"), sep = ";", header = TRUE)
 View(data2)
 # hist(data2$global_active_power, col = "red", main = "Global Active Power", xlab = "Global Active Power (kilowatts)")
 # install.packages("timeDate")
+# transform time
 library(timeDate)
 data2$date <- as.Date(data2$date, format = "%d/%m/%Y")
 data2$datetime <- paste(as.Date(data2$date), data2$time)
@@ -20,8 +22,9 @@ data2$datetime <- as.POSIXct(data2$datetime)
 #       legend = c("Sub_metering_1", "Sub_metering_2", "Sub_metering_3")) 
 
 
-
+# set the pannel
 par(mfrow = c(2,2), mar = c(4,4,2,1), oma = c(0,0,2,0))
+# plot
 with(data2, {
     plot(global_active_power ~ datetime, type = "l", ylab = "Global Active Power", xlab = "")
     plot(voltage ~ datetime, type = "l", ylab = "Voltage", xlab = "datetime")
